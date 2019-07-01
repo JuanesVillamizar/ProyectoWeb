@@ -24,6 +24,9 @@
             case 'appNuestroEquipo':
             $pagina = 'Infromacion Maestros';
             break;
+            case 'appInteresados':
+            $pagina = 'Infromacion Interesados';
+            break;
             default:
             $pagina = 'Pagina Inexistente';
             break;

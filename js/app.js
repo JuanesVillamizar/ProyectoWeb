@@ -26,6 +26,20 @@ function app(){
             elemento.classList.remove('bloques'); 
         }
     }
+    if(document.querySelector('main.contenedor h3 span#cantInteresados')){
+        //console.log('listo');
+        LlamadoAJAX(4);
+        var contador = document.querySelectorAll('main.contenedor div div.card').length;
+        //console.log(contador);
+        var elemento = document.querySelector('#contenedorCartas');
+        if(contador > 5){
+            elemento.classList.remove('contenedor-cartas');
+            elemento.classList.add('bloques');
+        }else{
+            elemento.classList.add('contenedor-cartas');
+            elemento.classList.remove('bloques'); 
+        }
+    }
 }
 function validarLogin(e){
     e.preventDefault(); 

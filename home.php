@@ -17,7 +17,7 @@
     </section>
     <section class="cantInteresados">
         <h3>Interesados</h3>
-        <p>La cantidad de interesados son: <span id="cantInteresados"> </span>, para mas informacion click <a href="#">aqui...</a></p>
+        <p>La cantidad de interesados son: <span id="cantInteresados"> </span>, para mas informacion click <a href="appInteresados.php">aqui...</a></p>
     </section>
 </main>
 

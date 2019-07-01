@@ -11,7 +11,7 @@
       <a class="nav-item nav-link" href="#">Servicios esenciales</a>
       <a class="nav-item nav-link" href="#">Tienda</a>
       <a class="nav-item nav-link" href="appNuestroEquipo.php">Nuestro equipo</a>
-      <a class="nav-item nav-link" href="#">Contacto clientes</a>
+      <a class="nav-item nav-link" href="appInteresados.php">Contacto clientes</a>
     </div>
   </div>
   <?php 
