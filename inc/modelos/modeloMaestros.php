@@ -1,25 +1,11 @@
 <?php
-//echo json_encode($_POST);
-if(isset($_POST['correo'])){
-    $nombre1 = $_POST['nombre1'];
-    $nombre2 = $_POST['nombre2'];
-    $apellido1 = $_POST['apellido1'];
-    $apellido2 = $_POST['apellido2'];
-    $telefono = $_POST['telefono'];
-    $correo = $_POST['correo'];
-    $mensaje = $_POST['mensaje'];
-    $fechaNacimiento = $_POST['fechaNacimiento'];
-    $status = $_POST['status'];
-    setlocale(LC_ALL,"es_ES");
-    $fechaActual = strftime('%A') . ' ' . strftime('%d') . ' de ' . strftime('%B') . ' del ' . strftime('%Y');
-}
-$accion = $_POST['accion'];
-
+if($_POST['accion']){
+    $accion = $_POST['accion'];
     //echo json_encode($_POST);
     include_once '../funciones/conexion.php';
     switch($accion){
         case 'crear':
-            try {
+            /*try {
                 // Realizar la consulta a la base de datos
                 $stmt = $conn->prepare("INSERT INTO interesados (nombre1, nombre2, apellido1, apellido2, telefono, correo, mensaje, fechaNacimiento, fechaActual, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ");
                 $stmt->bind_param('sssssssssi', $nombre1  , $nombre2, $apellido1, $apellido2, $telefono, $correo, $mensaje, $fechaNacimiento, $fechaActual, $status);
@@ -42,7 +28,7 @@ $accion = $_POST['accion'];
                 $respuesta = array(
                     'error' => $e->getMessage()
                 );
-            }
+            }*/
         break;
         case 'mostrar':
             try {
@@ -73,17 +59,15 @@ $accion = $_POST['accion'];
                 $stmt->close();
                 $conn->close();
                 */
-                $query = 'SELECT * FROM `interesados`';
+                $query = 'SELECT * FROM `maestros`';
                 if($resultadoConsulta = $conn->query($query)){
                     $row = 0;
                     while ($fila = $resultadoConsulta->fetch_row()){
                         $informacionCompleta[$row][0] = $fila[0];
-                        $informacionCompleta[$row][1] = $fila[1] . ' ' . $fila[2] . ' ' . $fila[3] . ' ' . $fila[4];
-                        $informacionCompleta[$row][2] = 'Telefono: ' . $fila[5] . ',<br> correo: ' . $fila[6];
-                        $informacionCompleta[$row][3] = $fila[7];
-                        $informacionCompleta[$row][4] = 'Fecha de nacimiento: '. $fila[8];
-                        $informacionCompleta[$row][5] = $fila[9];
-                        $informacionCompleta[$row][6] = $fila[10];
+                        $informacionCompleta[$row][1] = $fila[1] . ' ' . $fila[2];
+                        $informacionCompleta[$row][2] = $fila[3];
+                        $informacionCompleta[$row][3] = $fila[4];
+                        $informacionCompleta[$row][4] = $fila[5];
                         $row++;
                     }
                 }
@@ -104,4 +88,7 @@ $accion = $_POST['accion'];
             $respuesta = array('respuesta' => 'Error provocado al editar la pagina');
         break;
     }
+}else{
+    $respuesta = array('respuesta' => 'Error provocado al editar la pagina');
+}
 echo json_encode($respuesta);

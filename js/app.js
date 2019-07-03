@@ -1,20 +1,24 @@
 app();
 validaciones();
 function app(){
+    //login
     if(document.querySelector('input.boton')){
         //console.log('Login');
         document.querySelector('input.boton').addEventListener('click', validarLogin) 
     }
+    //home
     if(document.querySelector('main.contenedor section')){
         //console.log('estas en el home');
-        LlamadoAJAX(1);
-        LlamadoAJAX(2);
-        LlamadoAJAX(3);
-        LlamadoAJAX(4);
-        LlamadoAJAX(5);
+        LlamadoCantidadAJAX(1);
+        LlamadoCantidadAJAX(2);
+        LlamadoCantidadAJAX(3);
+        LlamadoCantidadAJAX(4);
+        LlamadoCantidadAJAX(5);
     }
+    //maestros
     if(document.querySelector('main.contenedor h3 span#cantMaestros')){
-        LlamadoAJAX(3);
+        LlamadoCantidadAJAX(3);
+        mostrarMaestros();
         var contador = document.querySelectorAll('main.contenedor div div.card').length;
         //console.log(contador);
         var elemento = document.querySelector('#contenedorCartas');
@@ -26,9 +30,11 @@ function app(){
             elemento.classList.remove('bloques'); 
         }
     }
+    //interesados
     if(document.querySelector('main.contenedor h3 span#cantInteresados')){
         //console.log('listo');
-        LlamadoAJAX(4);
+        LlamadoCantidadAJAX(4);
+        mostrarInteresados();
         var contador = document.querySelectorAll('main.contenedor div div.card').length;
         //console.log(contador);
         var elemento = document.querySelector('#contenedorCartas');
@@ -39,6 +45,7 @@ function app(){
             elemento.classList.add('contenedor-cartas');
             elemento.classList.remove('bloques'); 
         }
+        document.querySelector('div.contenedor-cartas').addEventListener('click', cambiarEstado(e));
     }
 }
 function validarLogin(e){
@@ -67,7 +74,7 @@ function validarLogin(e){
         //leer la respuesta
         xhr.onload = function(){
             if(this.readyState == 4 && this.status == 200){
-                var response = JSON.parse(xhr.responseText);
+                let response = JSON.parse(xhr.responseText);
                 //console.log(response);
                 if(response.respuesta == 'correcto'){
                     swal({
@@ -143,7 +150,7 @@ function validaciones(){
         //console.log('No existe o no se encontro el elemento especificado');
     }
 }
-function LlamadoAJAX(num){
+function LlamadoCantidadAJAX(num){
     //hacer llamado a Ajax
     //crear el objeto
     var xhr = new XMLHttpRequest();
@@ -154,7 +161,7 @@ function LlamadoAJAX(num){
     //revizar respuesta
     xhr.onload = function(){
         if(this.status == 200 && this.readyState == 4){
-            var response = JSON.parse(xhr.responseText);
+            let response = JSON.parse(xhr.responseText);
             //console.log(response.opcion);
             if(response.respuesta == 'correcto'){
                 switch(response.opcion){
@@ -194,4 +201,80 @@ function LlamadoAJAX(num){
     }
     //enviar la peticion
     xhr.send(datos);
+}
+function mostrarInteresados(){
+    //hacer llamado a ajax
+    //crear el objeto
+    var xhr = new XMLHttpRequest();
+    var datos = new FormData();
+    datos.append('accion', 'mostrar');
+    //establecer la conexion
+    xhr.open('POST', 'inc/modelos/modeloContacto.php', true);
+    //leer la respuesta
+    xhr.onload =function(){
+        if(this.status == 200 && this.readyState == 4){
+            let response = JSON.parse(xhr.responseText);
+            //console.log(response.informacion);
+            if(response.respuesta == 'correcto'){
+                var elementoPadre = document.querySelector('main.contenedor center div.contenedor-cartas');
+                for(var i = 0; i < response.informacion.length; i++){
+                    //console.log('listo');
+                    var elementoHijo = document.createElement('div');
+                    elementoHijo.classList.add('card');
+                    elementoHijo.innerHTML = 
+                    `<div class="card-body">
+                        <input type="hidden" name="id" id="idInteresado" value="` + response.informacion[i][0] + `">
+                        <h1 class="card-title" name="pNombre"><i class="fas fa-star"></i>` + response.informacion[i][1] + `</h1>
+                        <p class="card-text" name="pMensaje">` + response.informacion[i][3] + `</p>
+                        <p class="card-text" name="pFechaInteres">` + response.informacion[i][5] + `</p>
+                        <p class="card-text" name="pFechaNacimiento">` + response.informacion[i][4] + `</p>
+                        <p class="card-text" name="pMetodosContacto">` + response.informacion[i][2] + `</p>
+                        <span><i class="fas fa-user-check"></i></span>
+                    </div>`;
+                    elementoPadre.appendChild(elementoHijo);
+                }
+            }
+        }
+    }
+    xhr.send(datos);
+}
+function mostrarMaestros(){
+    //hacer llamado a ajax
+    //crear el objeto
+    var xhr = new XMLHttpRequest();
+    var datos = new FormData();
+    datos.append('accion', 'mostrar');
+    //establecer la conexion
+    xhr.open('POST', 'inc/modelos/modeloMaestros.php', true);
+    //leer la respuesta
+    xhr.onload =function(){
+        if(this.status == 200 && this.readyState == 4){
+            let response = JSON.parse(xhr.responseText);
+            //console.log(response.informacion);
+            if(response.respuesta == 'correcto'){
+                var elementoPadre = document.querySelector('main.contenedor div.contenedor-cartas');
+                for(var i = 0; i < response.informacion.length; i++){
+                    //console.log('listo');
+                    var elementoHijo = document.createElement('div');
+                    elementoHijo.classList.add('card');
+                    elementoHijo.innerHTML = 
+                    `<div>
+                        <input type="hidden" name="id" id="idMaestro" value="` + response.informacion[i][0] + `">
+                        <img src="img/` + response.informacion[i][4] + `" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h1 class="card-title">` + response.informacion[i][2] + `</h1><br>
+                            <p class="card-text">` + response.informacion[i][3] + `</p>
+                            <a href="#" class="btn btn-outline-secondary">Editar</a>
+                        </div>
+                    </div>`;
+                    elementoPadre.appendChild(elementoHijo);
+                }
+            }
+        }
+    }
+    xhr.send(datos);
+}
+
+function cambiarEstado(e){
+    console.log('listo');
 }
