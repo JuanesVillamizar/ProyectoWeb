@@ -16,7 +16,7 @@
   </div>
   <?php 
   if($_SESSION['usuario'] == 'Admin'):?>
-    <a class="btn btn-outline-dark my-2 my-sm-0" href="#" style="margin:5px" >Administrar Usuarios</a>
+    <a class="btn btn-outline-dark my-2 my-sm-0" href="appGestionUsuarios.php" style="margin:5px" >Administrar Usuarios</a>
   <?php endif;?>
   <a class="btn btn-outline-dark my-2 my-sm-0" href="login.php?session=1" >Salir</a>
 </nav>

@@ -1,5 +1,6 @@
 app();
 validaciones();
+mostrarMaestroPagina();
 function app(){
     //login
     if(document.querySelector('input.boton')){
@@ -18,7 +19,7 @@ function app(){
     //maestros
     if(document.querySelector('main.contenedor h3 span#cantMaestros')){
         LlamadoCantidadAJAX(3);
-        mostrarMaestros();
+        mostrarMaestros(0);
         var contador = document.querySelectorAll('main.contenedor div div.card').length;
         //console.log(contador);
         var elemento = document.querySelector('#contenedorCartas');
@@ -45,7 +46,13 @@ function app(){
             elemento.classList.add('contenedor-cartas');
             elemento.classList.remove('bloques'); 
         }
-        document.querySelector('div.contenedor-cartas').addEventListener('click', cambiarEstado(e));
+    }
+    //usuarios
+    if(document.querySelector('main.contenedor h3 span#cantUsuarios')){
+        //cantidad de usuarios
+        LlamadoCantidadAJAX(6);
+        //mostrar usuarios
+        
     }
 }
 function validarLogin(e){
@@ -190,6 +197,11 @@ function LlamadoCantidadAJAX(num){
                         var contenedor = document.querySelector('#disponibles');
                         contenedor.innerHTML = response.sumaTotal;
                         break;
+                    case '6':
+                        //console.log(response);
+                        var contenedor = document.querySelector('#cantUsuarios');
+                        contenedor.innerHTML = response.sumaTotal;
+                        break;
                     default:
                         console.log('Esta intentando hacer daños a la plataforma?');
                         break;
@@ -238,7 +250,7 @@ function mostrarInteresados(){
     }
     xhr.send(datos);
 }
-function mostrarMaestros(){
+function mostrarMaestros(pagina){
     //hacer llamado a ajax
     //crear el objeto
     var xhr = new XMLHttpRequest();
@@ -252,21 +264,33 @@ function mostrarMaestros(){
             let response = JSON.parse(xhr.responseText);
             //console.log(response.informacion);
             if(response.respuesta == 'correcto'){
-                var elementoPadre = document.querySelector('main.contenedor div.contenedor-cartas');
+                var elementoPadre = document.querySelector('main.contenedor div');
                 for(var i = 0; i < response.informacion.length; i++){
                     //console.log('listo');
                     var elementoHijo = document.createElement('div');
                     elementoHijo.classList.add('card');
-                    elementoHijo.innerHTML = 
-                    `<div>
-                        <input type="hidden" name="id" id="idMaestro" value="` + response.informacion[i][0] + `">
-                        <img src="img/` + response.informacion[i][4] + `" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h1 class="card-title">` + response.informacion[i][2] + `</h1><br>
-                            <p class="card-text">` + response.informacion[i][3] + `</p>
-                            <a href="#" class="btn btn-outline-secondary">Editar</a>
-                        </div>
-                    </div>`;
+                    var template = "";
+                    if(pagina == 0){
+                        template = `<div>
+                                        <input type="hidden" name="id" id="idMaestro" value="` + response.informacion[i][0] + `">
+                                        <img src="img/` + response.informacion[i][4] + `" class="card-img-top" alt="...">
+                                        <div class="card-body">
+                                            <h1 class="card-title">` + response.informacion[i][2] + `</h1><br>
+                                            <p class="card-text">` + response.informacion[i][3] + `</p>
+                                            <a href="#" class="btn btn-outline-secondary">Editar</a>
+                                        </div>
+                                    </div>`;
+                    }else if(pagina == 1){
+                        template = `<div>
+                                        <input type="hidden" name="id" id="idMaestro" value="` + response.informacion[i][0] + `">
+                                        <img src="img/` + response.informacion[i][4] + `" class="card-img-top" alt="...">
+                                        <div class="card-body">
+                                            <h1 class="card-title">` + response.informacion[i][2] + `</h1><br>
+                                            <p class="card-text">` + response.informacion[i][3] + `</p>
+                                        </div>
+                                    </div>`;
+                    }
+                    elementoHijo.innerHTML = template;
                     elementoPadre.appendChild(elementoHijo);
                 }
             }
@@ -275,6 +299,10 @@ function mostrarMaestros(){
     xhr.send(datos);
 }
 
-function cambiarEstado(e){
-    console.log('listo');
+//pagina de maestros de la pagina donde todo el mundo puede verla
+function mostrarMaestroPagina(){
+    if(document.querySelector('main.servicios div.contenedor-servicios')){
+        //console.log('listo');
+        mostrarMaestros(1);
+    }
 }

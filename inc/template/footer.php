@@ -24,6 +24,7 @@
             echo "<script src='js/main.js'></script>";
         break;
         case 'nuestroEquipo':
+            echo "<script src='js/app.js'></script>";
         break;
         case 'contactenos':
             echo "<script src='js/main.js'></script>";

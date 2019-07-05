@@ -27,6 +27,9 @@
             case 'appInteresados':
             $pagina = 'Infromacion Interesados';
             break;
+            case 'appGestionUsuarios':
+            $pagina = 'Gestion de usuarios';
+            break;
             default:
             $pagina = 'Pagina Inexistente';
             break;

@@ -20,6 +20,9 @@ if(isset($_POST['opcion'])){
             case '5':
                 $stmt = $conn->prepare("SELECT sum(cantidad) FROM `inventario_productos`");
             break;
+            case '6':
+                $stmt = $conn->prepare("SELECT COUNT(*) FROM `usuarios`");
+            break;
             default:
                 $stmt = null;
             break;
