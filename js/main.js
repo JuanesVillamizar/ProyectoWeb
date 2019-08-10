@@ -22,7 +22,7 @@ function validaciones(e){
     var campo7 = document.querySelector('#fechaNacimiento').value;
     var campo8 = document.querySelector('#mensaje').value;
     e.preventDefault(); 
-    if(campo1 == "" || campo2 == "" || campo3 == "" || campo4 == "" || campo5 == "" || campo6 == "" || campo7 == "" || campo8 == ""){
+    if(campo1 == "" || campo3 == "" || campo4 == "" || campo5 == "" || campo6 == "" || campo7 == "" || campo8 == ""){
         //console.log('llena todos los campos');
         Swal.fire({
             type: 'error',

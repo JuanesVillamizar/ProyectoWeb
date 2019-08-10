@@ -36,23 +36,35 @@ function app(){
         //console.log('listo');
         LlamadoCantidadAJAX(4);
         mostrarInteresados();
-        var contador = document.querySelectorAll('main.contenedor div div.card').length;
-        //console.log(contador);
+        var icono = document.querySelectorAll('main.contenedor div.card-body span i');
+        var contador;
+        document.addEventListener('click',function(e){
+            //console.log(e.target);
+            //e.target.classList.contains('completar')
+            var id = e.target.id.split(':');
+            var status = e.target.parentElement.firstChild.value;
+            cambiarEstado(e, id[1], status);
+            contador = document.querySelectorAll('main.contenedor center div.contenedor-cartas div.card-body').length;
+            console.log(contador);
+        });
+        /*var contador = document.querySelectorAll('main.contenedor center div.contenedor-cartas div.card-body').length;
+        console.log(contador);
         var elemento = document.querySelector('#contenedorCartas');
-        if(contador > 5){
+        if(contador > 4){
             elemento.classList.remove('contenedor-cartas');
             elemento.classList.add('bloques');
         }else{
             elemento.classList.add('contenedor-cartas');
             elemento.classList.remove('bloques'); 
-        }
+        }*/
+        
     }
     //usuarios
     if(document.querySelector('main.contenedor h3 span#cantUsuarios')){
         //cantidad de usuarios
         LlamadoCantidadAJAX(6);
         //mostrar usuarios
-        
+        mostrarUsuarios();
     }
 }
 function validarLogin(e){
@@ -229,19 +241,24 @@ function mostrarInteresados(){
             //console.log(response.informacion);
             if(response.respuesta == 'correcto'){
                 var elementoPadre = document.querySelector('main.contenedor center div.contenedor-cartas');
+                var status = '';
                 for(var i = 0; i < response.informacion.length; i++){
                     //console.log('listo');
                     var elementoHijo = document.createElement('div');
                     elementoHijo.classList.add('card');
+                    if(response.informacion[i][6] == '0'){
+                        status = 'gris';
+                    }else if(response.informacion[i][6] == '1'){
+                        status = 'verde';
+                    }
                     elementoHijo.innerHTML = 
                     `<div class="card-body">
-                        <input type="hidden" name="id" id="idInteresado" value="` + response.informacion[i][0] + `">
                         <h1 class="card-title" name="pNombre"><i class="fas fa-star"></i>` + response.informacion[i][1] + `</h1>
                         <p class="card-text" name="pMensaje">` + response.informacion[i][3] + `</p>
                         <p class="card-text" name="pFechaInteres">` + response.informacion[i][5] + `</p>
                         <p class="card-text" name="pFechaNacimiento">` + response.informacion[i][4] + `</p>
                         <p class="card-text" name="pMetodosContacto">` + response.informacion[i][2] + `</p>
-                        <span><i class="fas fa-user-check"></i></span>
+                        <span><input type="hidden" id="status" value="` + response.informacion[i][6] + `"><i id="id:` + response.informacion[i][0] + `" class="fas fa-user-check completar `+ status +`"></i></span>
                     </div>`;
                     elementoPadre.appendChild(elementoHijo);
                 }
@@ -259,7 +276,7 @@ function mostrarMaestros(pagina){
     //establecer la conexion
     xhr.open('POST', 'inc/modelos/modeloMaestros.php', true);
     //leer la respuesta
-    xhr.onload =function(){
+    xhr.onload = function(){
         if(this.status == 200 && this.readyState == 4){
             let response = JSON.parse(xhr.responseText);
             //console.log(response.informacion);
@@ -298,6 +315,68 @@ function mostrarMaestros(pagina){
     }
     xhr.send(datos);
 }
+function mostrarUsuarios(){
+    //hacer llamado a AJAX
+    //hacer llamado a AJAX
+    var xhr = new XMLHttpRequest();
+    var datos = new FormData();
+    datos.append('accion', 'mostrar');
+    //establecer la conexion
+    xhr.open('POST', 'inc/modelos/modeloUsuario.php', true);
+    //leer la respuesta
+    xhr.onload = function(){
+        if(this.status == 200 && this.readyState == 4){
+            var response = JSON.parse(xhr.responseText);
+            //console.log(response);
+            if(response.informacion.length > 0){
+                var contenedor = document.querySelector('main.contenedor div.contenedor-usuarios');
+                for(var i = 0; i < response.informacion.length; i++){
+                    //contenedores de usuarios 
+                    
+                        //campos de usuarios
+                        
+                }
+            }
+        }
+    }
+    //enviar datos
+    xhr.send(datos);
+
+}
+function cambiarEstado(e, id, CampoStatus){
+    //hacer llamado a AJAX
+    //crear los datos
+    var xhr = new XMLHttpRequest();
+    var datos = new FormData();
+    datos.append('accion', 'editar');
+    datos.append('status', CampoStatus);
+    datos.append('id', id);
+    //abrir la conexion
+    xhr.open('POST','inc/modelos/modeloContacto.php', true);
+    //leer la respuesta
+    xhr.onload = function(){
+        if(this.status == 200 ){
+            var respuesta = JSON.parse(xhr.responseText);
+            //console.log(respuesta.respuesta);
+            if(respuesta.respuesta == 'correcto'){
+                var status = respuesta.status;
+                //console.log('listo');
+                var color = '';
+                if(status == 0){
+                    color = 'gris';
+                }else if(status == 1){
+                    color = 'verde';
+                }
+                e.target.classList.remove('gris');
+                e.target.classList.remove('verde');
+                e.target.classList.add(color);
+                e.target.parentElement.firstChild.value = status;
+            }
+        }
+    }
+    //enviar la peticion
+    xhr.send(datos);
+}
 
 //pagina de maestros de la pagina donde todo el mundo puede verla
 function mostrarMaestroPagina(){
@@ -306,3 +385,4 @@ function mostrarMaestroPagina(){
         mostrarMaestros(1);
     }
 }
+

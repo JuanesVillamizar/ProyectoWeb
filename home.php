@@ -9,7 +9,7 @@
     </section>
     <section class="cantProductos">
         <h3>Tienda</h3>
-        <p>La cantidad de productos registrados son: <span id="cantRegistrados"> </span> y la cantidad de productos disponibles para la venta son: <span id="disponibles"> </span>, para mas informacion click <a href="#">aqui...</a></p>
+        <p>La tienda tiene <span id="cantRegistrados"> </span> productos y la cantidad de esos productos disponibles para la venta son: <span id="disponibles"> </span>, para mas informacion click <a href="#">aqui...</a></p>
     </section>
     <section class="cantMaestros">
         <h3>Maestros</h3>

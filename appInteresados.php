@@ -11,7 +11,7 @@ $query = 'SELECT * FROM `interesados`';
     <h3>La cantidad de interesados son: <span id="cantInteresados"> </span></h3>
     <center>
         <div class="contenedor-cartas" id="contenedorCartas">
-            
+        
         </div>
     </center>
 </main>

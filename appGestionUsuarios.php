@@ -4,6 +4,9 @@
 
 <main class="contenedor">
     <h3>La cantidad de usuarios es: <span id="cantUsuarios"> </span> </h3>
+    <div class="contenedor-usuarios">
+    
+    </div>
 </main>
 
 <?php include_once 'inc/template/appFooter.php'; ?>

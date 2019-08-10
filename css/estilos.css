@@ -369,6 +369,7 @@ label span{
  }
  .bloques{
      display: inline-block!important;
+     width: 80%;
  }
 @media(max-width:768px){
     .contenedor-cartas{
@@ -384,9 +385,15 @@ label span{
     border: 1px solid rgba(135, 52, 183, .7);
 }
 /*Interesados app*/
-div.card-body i{
-    color: var(--primario);
-}
 .exitoso{
     color: rgb(0, 126, 27);
+}
+.completar{
+    cursor: pointer;
+}
+.gris{
+    color: #707070;
+}
+.verde{
+    color: #209726;
 }

@@ -98,7 +98,37 @@ $accion = $_POST['accion'];
                 );
             }
         break;
-        case 'borrar':
+        case 'editar':
+            $status = $_POST['status'];
+            $id = $_POST['id'];
+            if($status == 0){
+                $status = 1;
+            }else if($status == 1){
+                $status = 0;
+            }
+            try {
+                // Realizar la consulta a la base de datos
+                $stmt = $conn->prepare("UPDATE interesados SET interesados.status = ? WHERE id = ? ");
+                $stmt->bind_param('ii', $status, $id);
+                $stmt->execute();
+                if($stmt->affected_rows > 0) {
+                    $respuesta = array(
+                        'respuesta' => 'correcto',
+                        'status' => $status
+                    );
+                }  else {
+                    $respuesta = array(
+                        'respuesta' => 'error'
+                    );
+                }
+                $stmt->close();
+                $conn->close();
+            } catch(Exception $e) {
+                // En caso de un error, tomar la exepcion
+                $respuesta = array(
+                    'error' => $e->getMessage()
+                );
+            }
         break;
         default:
             $respuesta = array('respuesta' => 'Error provocado al editar la pagina');

@@ -13,7 +13,7 @@
                     <input type="text" class="textoGrandre form-control" name="nombre1" id="nombre1" placeholder="Escribe Aqui..." required><br>
                 </div>
                 <div class="form-group col-md-6">
-                    <label for="nombre2">Segundo nombre: <span>*</span></label><br>
+                    <label for="nombre2">Segundo nombre: </label><br>
                     <input type="text" class="textoGrandre form-control" name="nombre2" id="nombre2" placeholder="Escribe Aqui..." required><br>
                 </div>
             </div>
